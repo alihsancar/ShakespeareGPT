@@ -7,7 +7,6 @@ DATA_PATH = "data/shakespeare.txt"
 
 def download_shakespeare():
     if os.path.exists(DATA_PATH):
-        print("Data file exists, skipping")
         return
 
     os.makedirs(name="data", exist_ok=True)
@@ -30,9 +29,6 @@ class CharacterTokenizer:
         self.id_to_char = {}
         for index, char in enumerate(self.characters):
             self.id_to_char[index] = char
-
-        print(f"Vocab Size: {self.vocab_size}")
-        print(f"Characters: {self.characters}")
 
     def encode(self, text: str) -> list:
         ids = []
@@ -62,8 +58,6 @@ def load_data(train_split: float = 0.9):
     split_index = int(len(data) * train_split)
     train_data = data[:split_index]
     test_data = data[split_index:]
-    print(f"Train data size : {len(train_data)}")
-    print(f"Test data size : {len(test_data)}")
 
     return train_data, test_data, tokenizer
 
@@ -100,5 +94,3 @@ if __name__ == "__main__":
 
     train_data, test_data, tokenizer = load_data()
     x, y = get_batch(train_data, block_size=256, batch_size=5)
-    print(x.shape)
-    print(y.shape)

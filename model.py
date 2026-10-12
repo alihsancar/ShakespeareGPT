@@ -114,7 +114,7 @@ class GPT(nn.Module):
 
         x = self.ln_final(x)
         logits = self.output_proj(x)
-        print(f"Logits shape : {logits.shape}")
+        # print(f"Logits shape : {logits.shape}")
         # Logits shape : torch.Size([4, 256, 65])   ->    batch_size, block_size, vocab_size
 
         loss = None
@@ -133,14 +133,14 @@ class GPT(nn.Module):
             if input_ids.size(1) <= self.block_size:
                 current_input = input_ids
             else:
-                current_input = input_ids[:, -self.block_size]
+                current_input = input_ids[:, -self.block_size:]
 
             logits, _ = self.forward(current_input)
 
-            print(logits.shape)
+            # print(logits.shape)
 
             last_logits = logits[:, -1, :]
-            print(f"last logits: {last_logits}")
+            # print(f"last logits: {last_logits}")
             last_logits /= temperature
             probs = F.softmax(last_logits, dim=-1)
             next_token = torch.multinomial(probs, num_samples=1)
